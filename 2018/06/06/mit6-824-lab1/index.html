@@ -81,18 +81,18 @@
 
 
 
-<meta name="description" content="##前言MIT6.824 是我在学习一些分布式系统方面的知识的时候偶然看到的，然后就开始尝试跟课。不得不说，国外的课程难度是真的大，一周的时间居然要学一门 Go 语言，然后还要读论文，进而做MapReduce 实验。由于 MR（MapReduce） 框架需要建立在 DFS（Distributed File System）的基础上实现，所以本实验是通过使用多线程来模拟分布式环境。虽然难度上大大降低，">
+<meta name="description" content="前言MIT6.824 是我在学习一些分布式系统方面的知识的时候偶然看到的，然后就开始尝试跟课。不得不说，国外的课程难度是真的大，一周的时间居然要学一门 Go 语言，然后还要读论文，进而做MapReduce 实验。由于 MR（MapReduce） 框架需要建立在 DFS（Distributed File System）的基础上实现，所以本实验是通过使用多线程来模拟分布式环境。虽然难度上大大降低，但是">
 <meta name="keywords" content="分布式系统,MIT6.824,MapReduce">
 <meta property="og:type" content="article">
 <meta property="og:title" content="MIT6.824 Lab1-MapReduce">
 <meta property="og:url" content="http://www.yufengli.cn/2018/06/06/mit6-824-lab1/index.html">
 <meta property="og:site_name" content="Binary Lyf">
-<meta property="og:description" content="##前言MIT6.824 是我在学习一些分布式系统方面的知识的时候偶然看到的，然后就开始尝试跟课。不得不说，国外的课程难度是真的大，一周的时间居然要学一门 Go 语言，然后还要读论文，进而做MapReduce 实验。由于 MR（MapReduce） 框架需要建立在 DFS（Distributed File System）的基础上实现，所以本实验是通过使用多线程来模拟分布式环境。虽然难度上大大降低，">
+<meta property="og:description" content="前言MIT6.824 是我在学习一些分布式系统方面的知识的时候偶然看到的，然后就开始尝试跟课。不得不说，国外的课程难度是真的大，一周的时间居然要学一门 Go 语言，然后还要读论文，进而做MapReduce 实验。由于 MR（MapReduce） 框架需要建立在 DFS（Distributed File System）的基础上实现，所以本实验是通过使用多线程来模拟分布式环境。虽然难度上大大降低，但是">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-06-06T06:53:46.482Z">
+<meta property="og:updated_time" content="2018-06-06T06:58:39.788Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="MIT6.824 Lab1-MapReduce">
-<meta name="twitter:description" content="##前言MIT6.824 是我在学习一些分布式系统方面的知识的时候偶然看到的，然后就开始尝试跟课。不得不说，国外的课程难度是真的大，一周的时间居然要学一门 Go 语言，然后还要读论文，进而做MapReduce 实验。由于 MR（MapReduce） 框架需要建立在 DFS（Distributed File System）的基础上实现，所以本实验是通过使用多线程来模拟分布式环境。虽然难度上大大降低，">
+<meta name="twitter:description" content="前言MIT6.824 是我在学习一些分布式系统方面的知识的时候偶然看到的，然后就开始尝试跟课。不得不说，国外的课程难度是真的大，一周的时间居然要学一门 Go 语言，然后还要读论文，进而做MapReduce 实验。由于 MR（MapReduce） 框架需要建立在 DFS（Distributed File System）的基础上实现，所以本实验是通过使用多线程来模拟分布式环境。虽然难度上大大降低，但是">
 
 
 
@@ -338,7 +338,7 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-06-06T14:02:25+08:00">
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-06-06T14:26:25+08:00">
                 2018-06-06
               </time>
             
@@ -409,10 +409,9 @@
       
 
       
-        <p>##前言<br>MIT6.824 是我在学习一些分布式系统方面的知识的时候偶然看到的，然后就开始尝试跟课。不得不说，国外的课程难度是真的大，一周的时间居然要学一门 Go 语言，然后还要读论文，进而做MapReduce 实验。<br>由于 MR（MapReduce） 框架需要建立在 DFS（Distributed File System）的基础上实现，所以本实验是通过使用<strong>多线程</strong>来模拟分布式环境。虽然难度上大大降低，但是通过该实验，还是会让我们对 MR 的核心原理有一个较为深刻的认识。<br>做实验之前我们需要先把经典的 MapReduce 论文给看了，窝比较建议直接看英文原文，但如果时间不充裕的话，可以直接在网上找中文的翻译版。<br>刚开始做这个实验的时候真的是一头雾水，完全不知道如何下手。后来发现这个工程有一个<strong>自动化测试文件（test_test.go）</strong>,每部分实验都会使用这个测试文件里的函数对代码进行测试。我们只要顺着这个测试函数逐步倒推，然后补全代码即可。<br><a id="more"></a></p>
-<p>##Part I: Map/Reduce input and output<br>第一部分是先实现一个顺序版（sequential）的MR，让我们对 MR 的流程有一个大体的认识,并且实现<code>doMap()</code> 和 <code>doReduce()</code> 两个函数。<br>其包含两个测试函数<code>TestSequentialSingle()</code> 和 <code>TestSequentialMany()</code>。</p>
-<p>###TestSequentialSingle()</p>
-<p>每个map worker处理一个文件，所以map worker的数量就等于文件的数量。<br>测试单个map worker 和 reduce worker。</p>
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>MIT6.824 是我在学习一些分布式系统方面的知识的时候偶然看到的，然后就开始尝试跟课。不得不说，国外的课程难度是真的大，一周的时间居然要学一门 Go 语言，然后还要读论文，进而做MapReduce 实验。<br>由于 MR（MapReduce） 框架需要建立在 DFS（Distributed File System）的基础上实现，所以本实验是通过使用<strong>多线程</strong>来模拟分布式环境。虽然难度上大大降低，但是通过该实验，还是会让我们对 MR 的核心原理有一个较为深刻的认识。<br>做实验之前我们需要先把经典的 MapReduce 论文给看了，窝比较建议直接看英文原文，但如果时间不充裕的话，可以直接在网上找中文的翻译版。<br>刚开始做这个实验的时候真的是一头雾水，完全不知道如何下手。后来发现这个工程有一个<strong>自动化测试文件（test_test.go）</strong>,每部分实验都会使用这个测试文件里的函数对代码进行测试。我们只要顺着这个测试函数逐步倒推，然后补全代码即可。       </p>
+<h2 id="Part-I-Map-Reduce-input-and-output"><a href="#Part-I-Map-Reduce-input-and-output" class="headerlink" title="Part I: Map/Reduce input and output"></a>Part I: Map/Reduce input and output</h2><p>第一部分是先实现一个顺序版（sequential）的MR，让我们对 MR 的流程有一个大体的认识,并且实现<code>doMap()</code> 和 <code>doReduce()</code> 两个函数。<br>其包含两个测试函数<code>TestSequentialSingle()</code> 和 <code>TestSequentialMany()</code>。</p>
+<h3 id="TestSequentialSingle"><a href="#TestSequentialSingle" class="headerlink" title="TestSequentialSingle()"></a>TestSequentialSingle()</h3><p>每个map worker处理一个文件，所以map worker的数量就等于文件的数量。<br>测试单个map worker 和 reduce worker。</p>
 <pre><code>func TestSequentialSingle(t *testing.T) {
     mr := Sequential(&quot;test&quot;, makeInputs(1), 1, MapFunc, ReduceFunc)
     mr.Wait()
@@ -420,7 +419,7 @@
     checkWorker(t, mr.stats)
     cleanup(mr)
 }
-</code></pre><p>###TestSequentialMany（）<br>此测试函数测试多个 map worker 和多个 reduce worker。<br>其运行逻辑和<code>TestSequentialSingle</code>类似。</p>
+</code></pre><h3 id="TestSequentialMany（）"><a href="#TestSequentialMany（）" class="headerlink" title="TestSequentialMany（）"></a>TestSequentialMany（）</h3><p>此测试函数测试多个 map worker 和多个 reduce worker。<br>其运行逻辑和<code>TestSequentialSingle</code>类似。</p>
 <pre><code>func TestSequentialMany(t *testing.T) {
     mr := Sequential(&quot;test&quot;, makeInputs(5), 3, MapFunc, ReduceFunc)
     mr.Wait()
@@ -428,7 +427,7 @@
     checkWorker(t, mr.stats)
     cleanup(mr)
 }
-</code></pre><p>###Sequential()<br>测试函数将<code>工作名称，测试文件，reduce 的数量，用户定义的 map 函数，reduce 函数</code>五个实参传递给<code>Sequential()</code></p>
+</code></pre><h3 id="Sequential"><a href="#Sequential" class="headerlink" title="Sequential()"></a>Sequential()</h3><p>测试函数将<code>工作名称，测试文件，reduce 的数量，用户定义的 map 函数，reduce 函数</code>五个实参传递给<code>Sequential()</code></p>
 <pre><code>// Sequential runs map and reduce tasks sequentially, waiting for each task to
 // complete before running the next.
 func Sequential(jobName string, files []string, nreduce int,
@@ -453,8 +452,7 @@ func Sequential(jobName string, files []string, nreduce int,
     return
 }
 </code></pre><p><code>Sequential()</code>首先获取一个<code>Master</code>    对象的指针，然后利用函数闭包运行<code>Master.run()</code>。</p>
-<p>###Master.run()</p>
-<pre><code>// run executes a mapreduce job on the given number of mappers and reducers.
+<h3 id="Master-run"><a href="#Master-run" class="headerlink" title="Master.run()"></a>Master.run()</h3><pre><code>// run executes a mapreduce job on the given number of mappers and reducers.
 //
 // First, it divides up the input file among the given number of mappers, and
 // schedules each task on workers as they become available. Each map task bins
@@ -484,7 +482,7 @@ func (mr *Master) run(jobName string, files []string, nreduce int,
 
     mr.doneChannel &lt;- true
 }
-</code></pre><p>###doMap()<br><code>doMap()</code> 和 <code>doReduce()</code>是需要我们去实现的函数。<br><code>doMap()</code>的实现主要是将用户定义的<code>MapFunc()</code>切割的文本，通过 hash 分到 ‘nReduce’个切片中去。</p>
+</code></pre><h3 id="doMap"><a href="#doMap" class="headerlink" title="doMap()"></a>doMap()</h3><p><code>doMap()</code> 和 <code>doReduce()</code>是需要我们去实现的函数。<br><code>doMap()</code>的实现主要是将用户定义的<code>MapFunc()</code>切割的文本，通过 hash 分到 ‘nReduce’个切片中去。</p>
 <pre><code>func doMap(
     jobName string, // the name of the MapReduce job
     mapTaskNumber int, // which map task this is
@@ -531,7 +529,7 @@ func (mr *Master) run(jobName string, files []string, nreduce int,
 
     }
 }
-</code></pre><p>###doReduce()<br><code>doReduce()</code>主要是将 key 值相同的 value 打包发送给用户定义的 <code>ReduceFunc()</code>，获得一个新的 kv对，key 值不变，而value值则是<code>ReduceFunc()</code>的返回值，排序，最后将新的 kv对 切片写入文件。</p>
+</code></pre><h3 id="doReduce"><a href="#doReduce" class="headerlink" title="doReduce()"></a>doReduce()</h3><p><code>doReduce()</code>主要是将 key 值相同的 value 打包发送给用户定义的 <code>ReduceFunc()</code>，获得一个新的 kv对，key 值不变，而value值则是<code>ReduceFunc()</code>的返回值，排序，最后将新的 kv对 切片写入文件。</p>
 <pre><code>type ByKey []KeyValue
 func (a ByKey) Len() int { return len(a) }
 func (a ByKey) Swap(i, j int) { a[i],a[j] = a[j],a[i] }
@@ -604,7 +602,7 @@ func doReduce(
         }
     }
 }
-</code></pre><p>##Part II: Single-worker word count<br>第二部分是实现<code>mapF()</code> 和 <code>reduceF()</code>函数，来实现通过顺序 MR统计词频的功能。<br>比较简单，就直接放代码了。</p>
+</code></pre><h2 id="Part-II-Single-worker-word-count"><a href="#Part-II-Single-worker-word-count" class="headerlink" title="Part II: Single-worker word count"></a>Part II: Single-worker word count</h2><p>第二部分是实现<code>mapF()</code> 和 <code>reduceF()</code>函数，来实现通过顺序 MR统计词频的功能。<br>比较简单，就直接放代码了。</p>
 <pre><code>func mapF(filename string, contents string) []mapreduce.KeyValue {
     f := func(c rune) bool {
         return !unicode.IsLetter(c)
@@ -629,8 +627,8 @@ func reduceF(key string, values []string) string {
     }
     return strconv.FormatInt(cnt,10)
 }
-</code></pre><p>##Part III: Distributing MapReduce tasks &amp;&amp; Part IV: Handling worker failures<br>第三部分和第四部分可以一起来做，主要是完成<code>schedule()</code>，实现一个通过线程并发执行 map worker 和 reduce worker 的 MR 框架。框架通过 RPC 来模拟分布式计算，并要带有 worker 的容灾功能。    </p>
-<p>###TestBasic()<br>测试函数启动两个线程运行<code>RUnWoker()</code>。   </p>
+</code></pre><h2 id="Part-III-Distributing-MapReduce-tasks-amp-amp-Part-IV-Handling-worker-failures"><a href="#Part-III-Distributing-MapReduce-tasks-amp-amp-Part-IV-Handling-worker-failures" class="headerlink" title="Part III: Distributing MapReduce tasks &amp;&amp; Part IV: Handling worker failures"></a>Part III: Distributing MapReduce tasks &amp;&amp; Part IV: Handling worker failures</h2><p>第三部分和第四部分可以一起来做，主要是完成<code>schedule()</code>，实现一个通过线程并发执行 map worker 和 reduce worker 的 MR 框架。框架通过 RPC 来模拟分布式计算，并要带有 worker 的容灾功能。    </p>
+<h3 id="TestBasic"><a href="#TestBasic" class="headerlink" title="TestBasic()"></a>TestBasic()</h3><p>测试函数启动两个线程运行<code>RUnWoker()</code>。   </p>
 <pre><code>func TestBasic(t *testing.T) {
     mr := setup()
     for i := 0; i &lt; 2; i++ {
@@ -642,8 +640,7 @@ func reduceF(key string, values []string) string {
     checkWorker(t, mr.stats)
     cleanup(mr)
 }
-</code></pre><p>###setup() &amp;&amp; Distributed()</p>
-<pre><code>func setup() *Master {
+</code></pre><h3 id="setup-amp-amp-Distributed"><a href="#setup-amp-amp-Distributed" class="headerlink" title="setup() &amp;&amp; Distributed()"></a>setup() &amp;&amp; Distributed()</h3><pre><code>func setup() *Master {
     files := makeInputs(nMap)
     master := port(&quot;master&quot;)
     mr := Distributed(&quot;test&quot;, files, nReduce, master)
@@ -667,7 +664,7 @@ func Distributed(jobName string, files []string, nreduce int, master string) (mr
         })
     return
 }
-</code></pre><p>###Master.forwardRegistrations()<br>该函数通过worker 的数量来判断是否有新 worker 启动，一旦发现有新的 worker 启动，则使用管道（ch）通知<code>schedule()</code>。<br>理解该函数对实现后面的<code>schedule()</code>至关重要。</p>
+</code></pre><h3 id="Master-forwardRegistrations"><a href="#Master-forwardRegistrations" class="headerlink" title="Master.forwardRegistrations()"></a>Master.forwardRegistrations()</h3><p>该函数通过worker 的数量来判断是否有新 worker 启动，一旦发现有新的 worker 启动，则使用管道（ch）通知<code>schedule()</code>。<br>理解该函数对实现后面的<code>schedule()</code>至关重要。</p>
 <pre><code>// helper function that sends information about all existing
 // and newly registered workers to channel ch. schedule()
 // reads ch to learn about workers.
@@ -688,7 +685,7 @@ func (mr *Master) forwardRegistrations(ch chan string) {
         mr.Unlock()
     }
 }
-</code></pre><p>###schedule()<br><code>shedule()</code>虽然不长，但实现起来还是有点难度的。<br><code>waitGroup</code>用来判断任务是否完成。<br><code>registerChan</code>来监听是否有新的 worker 启动，如果有的话，就启动一个线程来运行该 worker。通过新开线程来运行新 worker的逻辑比较符合分布式 MR 的特点。<br>对于 宕掉的worker执行<code>call()</code>操作时，会返回<code>false</code>。<br>每开始执行一个任务，就让<code>waitGroup</code>减一，而执行失败（<code>call()</code>返回 <code>false</code>）则将<code>waitGroup</code>加一，代表会将该任务安排给其他 worker。     </p>
+</code></pre><h3 id="schedule"><a href="#schedule" class="headerlink" title="schedule()"></a>schedule()</h3><p><code>shedule()</code>虽然不长，但实现起来还是有点难度的。<br><code>waitGroup</code>用来判断任务是否完成。<br><code>registerChan</code>来监听是否有新的 worker 启动，如果有的话，就启动一个线程来运行该 worker。通过新开线程来运行新 worker的逻辑比较符合分布式 MR 的特点。<br>对于 宕掉的worker执行<code>call()</code>操作时，会返回<code>false</code>。<br>每开始执行一个任务，就让<code>waitGroup</code>减一，而执行失败（<code>call()</code>返回 <code>false</code>）则将<code>waitGroup</code>加一，代表会将该任务安排给其他 worker。     </p>
 <p><code>waitGroup.Wait()</code>则会等到任务完全执行完返回。</p>
 <pre><code>func schedule(jobName string, mapFiles []string, nReduce int, phase jobPhase, registerChan chan string) {
     var ntasks int
@@ -783,8 +780,8 @@ func RunWorker(MasterAddress string, me string,
     wk.l.Close()
     debug(&quot;RunWorker %s exit\n&quot;, me)
 }
-</code></pre><p>##Part V: Inverted index generation<br>第五部分是实现倒排索引。此处要求的倒排索引，就是在输出结果时，需要将出现过 key 值文件的文件名在 key 值后面输出。<br>功能是通过完成 <code>mapF()</code> 和 <code>reduceF()</code> 来实现的。  </p>
-<p>###mapF()<br>将key 值所在文件的文件名赋给 kv对 的value。</p>
+</code></pre><h2 id="Part-V-Inverted-index-generation"><a href="#Part-V-Inverted-index-generation" class="headerlink" title="Part V: Inverted index generation"></a>Part V: Inverted index generation</h2><p>第五部分是实现倒排索引。此处要求的倒排索引，就是在输出结果时，需要将出现过 key 值文件的文件名在 key 值后面输出。<br>功能是通过完成 <code>mapF()</code> 和 <code>reduceF()</code> 来实现的。  </p>
+<h3 id="mapF"><a href="#mapF" class="headerlink" title="mapF()"></a>mapF()</h3><p>将key 值所在文件的文件名赋给 kv对 的value。</p>
 <pre><code>func mapF(document string, value string) (res []mapreduce.KeyValue) {
     f := func(c rune) bool {
         return !unicode.IsLetter(c)
@@ -797,7 +794,7 @@ func RunWorker(MasterAddress string, me string,
 
     return kvSlice
 }
-</code></pre><p>###reduceF()<br>将相同 key 值的所有 value 打包并统计数量返回。</p>
+</code></pre><h3 id="reduceF"><a href="#reduceF" class="headerlink" title="reduceF()"></a>reduceF()</h3><p>将相同 key 值的所有 value 打包并统计数量返回。</p>
 <pre><code>func reduceF(key string, values []string) string {
     var cnt int64
     var documents string
@@ -823,7 +820,7 @@ func RunWorker(MasterAddress string, me string,
     //return strconv.FormatInt(cnt,10)
     return strconv.FormatInt(cnt,10) + &quot; &quot; + documents
 }
-</code></pre><p>##后记<br>从刚开始的无从下手，到现在通过Lab1全部测试，MR 实验算是完全做完了，还是很有成就感的。<br>除了对 MR 有一个更深的理解之外，也深深感受到了优秀系统的魅力——功能强大，结构简洁。<br>同时又了解了一门新语言——GoLang，一门专门为高并发系统而设计的语言，用起来还是很舒服的。<br>但这毕竟是分布式系统的第一个实验，欠缺的知识还很多，继续努力。</p>
+</code></pre><h2 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h2><p>从刚开始的无从下手，到现在通过Lab1全部测试，MR 实验算是完全做完了，还是很有成就感的。<br>除了对 MR 有一个更深的理解之外，也深深感受到了优秀系统的魅力——功能强大，结构简洁。<br>同时又了解了一门新语言——GoLang，一门专门为高并发系统而设计的语言，用起来还是很舒服的。<br>但这毕竟是分布式系统的第一个实验，欠缺的知识还很多，继续努力。</p>
 
       
     </div>
@@ -858,14 +855,18 @@ func RunWorker(MasterAddress string, me string,
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
+              <a href="/2018/06/06/hello-world/" rel="next" title="Hello World">
+                <i class="fa fa-chevron-left"></i> Hello World
+              </a>
+            
           </div>
 
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2018/06/06/hello-world/" rel="prev" title="Hello World">
-                Hello World <i class="fa fa-chevron-right"></i>
+              <a href="/2018/06/06/csapp-lab1/" rel="prev" title="CSAPP Lab1-datalab">
+                CSAPP Lab1-datalab <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -1043,7 +1044,7 @@ func RunWorker(MasterAddress string, me string,
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#RunWorker"><span class="nav-number">1.</span> <span class="nav-text">RunWorker()</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Part-I-Map-Reduce-input-and-output"><span class="nav-number">2.</span> <span class="nav-text">Part I: Map/Reduce input and output</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#TestSequentialSingle"><span class="nav-number">2.1.</span> <span class="nav-text">TestSequentialSingle()</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#TestSequentialMany（）"><span class="nav-number">2.2.</span> <span class="nav-text">TestSequentialMany（）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Sequential"><span class="nav-number">2.3.</span> <span class="nav-text">Sequential()</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Master-run"><span class="nav-number">2.4.</span> <span class="nav-text">Master.run()</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#doMap"><span class="nav-number">2.5.</span> <span class="nav-text">doMap()</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#doReduce"><span class="nav-number">2.6.</span> <span class="nav-text">doReduce()</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Part-II-Single-worker-word-count"><span class="nav-number">3.</span> <span class="nav-text">Part II: Single-worker word count</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Part-III-Distributing-MapReduce-tasks-amp-amp-Part-IV-Handling-worker-failures"><span class="nav-number">4.</span> <span class="nav-text">Part III: Distributing MapReduce tasks &amp;&amp; Part IV: Handling worker failures</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#TestBasic"><span class="nav-number">4.1.</span> <span class="nav-text">TestBasic()</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#setup-amp-amp-Distributed"><span class="nav-number">4.2.</span> <span class="nav-text">setup() &amp;&amp; Distributed()</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Master-forwardRegistrations"><span class="nav-number">4.3.</span> <span class="nav-text">Master.forwardRegistrations()</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#schedule"><span class="nav-number">4.4.</span> <span class="nav-text">schedule()</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#RunWorker"><span class="nav-number">4.5.</span> <span class="nav-text">RunWorker()</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Part-V-Inverted-index-generation"><span class="nav-number">5.</span> <span class="nav-text">Part V: Inverted index generation</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#mapF"><span class="nav-number">5.1.</span> <span class="nav-text">mapF()</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#reduceF"><span class="nav-number">5.2.</span> <span class="nav-text">reduceF()</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#后记"><span class="nav-number">6.</span> <span class="nav-text">后记</span></a></li></ol></div>
             
 
           </div>
