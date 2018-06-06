@@ -89,7 +89,7 @@
 <meta property="og:site_name" content="Binary Lyf">
 <meta property="og:description" content="前言MIT6.824 是我在学习一些分布式系统方面的知识的时候偶然看到的，然后就开始尝试跟课。不得不说，国外的课程难度是真的大，一周的时间居然要学一门 Go 语言，然后还要读论文，进而做MapReduce 实验。由于 MR（MapReduce） 框架需要建立在 DFS（Distributed File System）的基础上实现，所以本实验是通过使用多线程来模拟分布式环境。虽然难度上大大降低，但是">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-06-06T06:58:39.788Z">
+<meta property="og:updated_time" content="2018-06-06T07:09:44.996Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="MIT6.824 Lab1-MapReduce">
 <meta name="twitter:description" content="前言MIT6.824 是我在学习一些分布式系统方面的知识的时候偶然看到的，然后就开始尝试跟课。不得不说，国外的课程难度是真的大，一周的时间居然要学一门 Go 语言，然后还要读论文，进而做MapReduce 实验。由于 MR（MapReduce） 框架需要建立在 DFS（Distributed File System）的基础上实现，所以本实验是通过使用多线程来模拟分布式环境。虽然难度上大大降低，但是">
@@ -411,23 +411,9 @@
       
         <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>MIT6.824 是我在学习一些分布式系统方面的知识的时候偶然看到的，然后就开始尝试跟课。不得不说，国外的课程难度是真的大，一周的时间居然要学一门 Go 语言，然后还要读论文，进而做MapReduce 实验。<br>由于 MR（MapReduce） 框架需要建立在 DFS（Distributed File System）的基础上实现，所以本实验是通过使用<strong>多线程</strong>来模拟分布式环境。虽然难度上大大降低，但是通过该实验，还是会让我们对 MR 的核心原理有一个较为深刻的认识。<br>做实验之前我们需要先把经典的 MapReduce 论文给看了，窝比较建议直接看英文原文，但如果时间不充裕的话，可以直接在网上找中文的翻译版。<br>刚开始做这个实验的时候真的是一头雾水，完全不知道如何下手。后来发现这个工程有一个<strong>自动化测试文件（test_test.go）</strong>,每部分实验都会使用这个测试文件里的函数对代码进行测试。我们只要顺着这个测试函数逐步倒推，然后补全代码即可。       </p>
 <h2 id="Part-I-Map-Reduce-input-and-output"><a href="#Part-I-Map-Reduce-input-and-output" class="headerlink" title="Part I: Map/Reduce input and output"></a>Part I: Map/Reduce input and output</h2><p>第一部分是先实现一个顺序版（sequential）的MR，让我们对 MR 的流程有一个大体的认识,并且实现<code>doMap()</code> 和 <code>doReduce()</code> 两个函数。<br>其包含两个测试函数<code>TestSequentialSingle()</code> 和 <code>TestSequentialMany()</code>。</p>
-<h3 id="TestSequentialSingle"><a href="#TestSequentialSingle" class="headerlink" title="TestSequentialSingle()"></a>TestSequentialSingle()</h3><p>每个map worker处理一个文件，所以map worker的数量就等于文件的数量。<br>测试单个map worker 和 reduce worker。</p>
-<pre><code>func TestSequentialSingle(t *testing.T) {
-    mr := Sequential(&quot;test&quot;, makeInputs(1), 1, MapFunc, ReduceFunc)
-    mr.Wait()
-    check(t, mr.files)
-    checkWorker(t, mr.stats)
-    cleanup(mr)
-}
-</code></pre><h3 id="TestSequentialMany（）"><a href="#TestSequentialMany（）" class="headerlink" title="TestSequentialMany（）"></a>TestSequentialMany（）</h3><p>此测试函数测试多个 map worker 和多个 reduce worker。<br>其运行逻辑和<code>TestSequentialSingle</code>类似。</p>
-<pre><code>func TestSequentialMany(t *testing.T) {
-    mr := Sequential(&quot;test&quot;, makeInputs(5), 3, MapFunc, ReduceFunc)
-    mr.Wait()
-    check(t, mr.files)
-    checkWorker(t, mr.stats)
-    cleanup(mr)
-}
-</code></pre><h3 id="Sequential"><a href="#Sequential" class="headerlink" title="Sequential()"></a>Sequential()</h3><p>测试函数将<code>工作名称，测试文件，reduce 的数量，用户定义的 map 函数，reduce 函数</code>五个实参传递给<code>Sequential()</code></p>
+<h3 id="TestSequentialSingle"><a href="#TestSequentialSingle" class="headerlink" title="TestSequentialSingle()"></a>TestSequentialSingle()</h3><p>每个map worker处理一个文件，所以map worker的数量就等于文件的数量。<br>测试单个map worker 和 reduce worker。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">func TestSequentialSingle(t *testing.T) &#123;</span><br><span class="line">	mr := Sequential(&quot;test&quot;, makeInputs(1), 1, MapFunc, ReduceFunc)</span><br><span class="line">	mr.Wait()</span><br><span class="line">	check(t, mr.files)</span><br><span class="line">	checkWorker(t, mr.stats)</span><br><span class="line">	cleanup(mr)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h3 id="TestSequentialMany（）"><a href="#TestSequentialMany（）" class="headerlink" title="TestSequentialMany（）"></a>TestSequentialMany（）</h3><p>此测试函数测试多个 map worker 和多个 reduce worker。<br>其运行逻辑和<code>TestSequentialSingle</code>类似。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">func TestSequentialMany(t *testing.T) &#123;</span><br><span class="line">	mr := Sequential(&quot;test&quot;, makeInputs(5), 3, MapFunc, ReduceFunc)</span><br><span class="line">	mr.Wait()</span><br><span class="line">	check(t, mr.files)</span><br><span class="line">	checkWorker(t, mr.stats)</span><br><span class="line">	cleanup(mr)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h3 id="Sequential"><a href="#Sequential" class="headerlink" title="Sequential()"></a>Sequential()</h3><p>测试函数将<code>工作名称，测试文件，reduce 的数量，用户定义的 map 函数，reduce 函数</code>五个实参传递给<code>Sequential()</code></p>
 <pre><code>// Sequential runs map and reduce tasks sequentially, waiting for each task to
 // complete before running the next.
 func Sequential(jobName string, files []string, nreduce int,
