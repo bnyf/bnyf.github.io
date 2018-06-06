@@ -89,7 +89,7 @@
 <meta property="og:site_name" content="Binary Lyf">
 <meta property="og:description" content="题目传送门https://www.51nod.com/onlineJudge/questionCode.html#!problemId=1088https://www.51nod.com/onlineJudge/questionCode.html#!problemId=1089 法一：暴力法就是求出所有子串，然后一个一个的判断是否为回文串，最后求出最大的子串 时间复杂度为O（n^3） 法二：中心展">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-06-06T10:36:55.687Z">
+<meta property="og:updated_time" content="2018-06-06T10:46:47.627Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="求最长回文串的几种做法">
 <meta name="twitter:description" content="题目传送门https://www.51nod.com/onlineJudge/questionCode.html#!problemId=1088https://www.51nod.com/onlineJudge/questionCode.html#!problemId=1089 法一：暴力法就是求出所有子串，然后一个一个的判断是否为回文串，最后求出最大的子串 时间复杂度为O（n^3） 法二：中心展">
@@ -407,8 +407,9 @@
 <p>dp[i][i] = 1,if(str[i] == str[i+1]) dp[i][i+1] = 2;</p>
 <p>时间复杂度O（n^2）</p>
 <h2 id="法四：manachar算法"><a href="#法四：manachar算法" class="headerlink" title="法四：manachar算法"></a>法四：manachar算法</h2><p>首先先在字符串中插入‘#’，这样就不用单独处理偶数串的问题，然后定义两个变量id，mx分别代表最长子串的中心和最长子串的右边界，p[i]表示 以 i 为中心的最长回文串的长度。</p>
-<p>最核心的就是根据mx和i的关系，进行不同的处理：</p>
-<pre><code>一、i &gt;= mx 
+<pre><code>最核心的就是根据mx和i的关系，进行不同的处理：
+
+一、i &gt;= mx 
 
     用中心展开法求子串的长度
 
