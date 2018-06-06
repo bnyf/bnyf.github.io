@@ -8,20 +8,7 @@
         <category>数据结构与算法</category>
       </categories>
       <tags>
-        <tag>ACM-ICPC</tag>
         <tag>字符串</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[博弈论的三个小游戏 - Bash游戏 威佐夫游戏 Nim游戏]]></title>
-    <url>%2F2018%2F06%2F06%2F%E5%8D%9A%E5%BC%88%E8%AE%BA%E7%9A%84%E4%B8%89%E4%B8%AA%E5%B0%8F%E6%B8%B8%E6%88%8F%2F</url>
-    <content type="text"><![CDATA[Bash游戏题目链接https://www.51nod.com/onlineJudge/questionCode.html#!problemId=1066 游戏规则有一堆石子一共N个，两人轮流拿，最少拿1个，最多拿K个，最后拿完石子的获胜。 证明如果N % (k+1) == 0，B必胜，否则A必胜 代码12345678910111213141516171819202122232425#include &lt;iostream&gt;#include &lt;algorithm&gt;#include &lt;cstring&gt;#include &lt;stdio.h&gt;#include &lt;string&gt;#include &lt;cmath&gt;#define ll long long#define mem(name,value) memset(name,value,sizeof(name))using namespace std;const int maxn = 105;int dp[maxn][maxn];int main()&#123; int t; cin &gt;&gt; t; while(t--)&#123; int n,k; cin &gt;&gt; n &gt;&gt; k; if(n % (k+1) == 0) cout &lt;&lt; "B" &lt;&lt;endl; else cout &lt;&lt; "A" &lt;&lt;endl; &#125; return 0;&#125; 威佐夫游戏题目链接https://www.51nod.com/onlineJudge/questionCode.html#!problemId=1072 游戏规则有两堆石子，两个人轮流从中取石子，可以从其中一堆中取不少于一个的石子或者从两堆石子中取相同的石子，最后把石子取完的人获胜。 证明后手胜利的情况为：(1, 2)(3, 5)(4, 7)(6, 10)(8, 13)(9, 15)(11, 18)(12, 20)。。。。。。令 m = (1 + sqrt(5))/2 (黄金分割数+1 = 1.618)观察发现每队整数之差为k，ak = [km] , bk = ak+k。因此只要判断 [(bk-ak)m] 是否等于ak就可以了 代码12345678910111213141516171819202122232425262728#include &lt;iostream&gt;#include &lt;algorithm&gt;#include &lt;cstring&gt;#include &lt;stdio.h&gt;#include &lt;string&gt;#include &lt;cmath&gt;#define ll long long#define mem(name,value) memset(name,value,sizeof(name))using namespace std;const int maxn = 105;int dp[maxn][maxn];int ak, bk;double x;int main() &#123; int n; cin &gt;&gt; n; x = (1 + sqrt(5.0)) / 2; for(int i=0;i&lt;n;i++)&#123; scanf("%d %d", &amp;ak, &amp;bk); if(ak &gt; bk) swap(ak,bk); int k = bk - ak; if(ak == (int)(k * x)) printf("B\n"); else printf("A\n"); &#125;&#125; Nim游戏题目链接https://www.51nod.com/onlineJudge/questionCode.html#!problemId=1069 游戏规则有N堆石子。A B两个人轮流拿，A先拿。每次只能从一堆中取若干个，可将一堆全取走，但不可不取，拿到最后1颗石子的人获胜。假设A B都非常聪明，拿石子的过程中不会出现失误。给出N及每堆石子的数量，问最后谁能赢得比赛。例如：3堆石子，每堆1颗。A拿1颗，B拿1颗，此时还剩1堆，所以A可以拿到最后1颗石子。 此题有个很奇妙的公式就是,如果n堆石子的个数满足 A0^A1^A2……An == 0,则B获胜，否则A获胜。 证明如果 A0^A1^A2……An == K！= 0，n堆石子中一定存在一堆石子m，Am的最高位&gt;= k，那么A一定可以从A堆中取出一定的石子使得K == 0。而当K == 0且游戏没结束时，无论B取出多少个石子，K恒!= 0，故A必胜。如果A0^A1^A2……An == 0时，由于A先取，由上述可知B必胜。 代码12345678910111213141516171819202122232425262728#include &lt;iostream&gt;#include &lt;algorithm&gt;#include &lt;cstring&gt;#include &lt;stdio.h&gt;#include &lt;string&gt;#include &lt;cmath&gt;#define ll long long#define mem(name,value) memset(name,value,sizeof(name))using namespace std;const int maxn = 105;int dp[maxn][maxn];int main()&#123; int n; cin &gt;&gt; n; int x; int sum = 0; for(int i=0;i&lt;n;i++)&#123; scanf("%d",&amp;x); sum ^= x; &#125; if(sum == 0) cout &lt;&lt; "B" &lt;&lt;endl; else cout &lt;&lt; "A" &lt;&lt; endl; return 0;&#125;]]></content>
-      <categories>
-        <category>计算机</category>
-        <category>数据结构与算法</category>
-      </categories>
-      <tags>
-        <tag>博弈</tag>
         <tag>ACM-ICPC</tag>
       </tags>
   </entry>
